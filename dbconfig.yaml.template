@@ -1,0 +1,5 @@
+servername: <servername>
+port: <port_number>
+databasename: <dbname>
+user: <username>
+password: <passwd>
