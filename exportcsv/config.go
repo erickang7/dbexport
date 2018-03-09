@@ -8,7 +8,7 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
-// Config ...
+// Config stuct maps to dbconfig.yaml
 type Config struct {
 	ServerName   string `jason:"servername" yaml:"servername"`
 	Port         int    `jason:"port" yaml:"port"`
@@ -17,7 +17,7 @@ type Config struct {
 	Password     string `jason:"password" yaml:"password"`
 }
 
-// LoadConfig ...
+// LoadConfig method reads dbconfig.yaml file and instantiates *Config struct
 func (c *Config) LoadConfig(configPath string) error {
 	var err error
 	var y []byte
@@ -34,7 +34,7 @@ func (c *Config) LoadConfig(configPath string) error {
 	return nil
 }
 
-// String ...
+// String() function prints out Config struct property values
 func (c *Config) String() string {
 	return fmt.Sprintf("server: %s\nport: %d\ndatabase: %s\nuser: %s\n",
 		c.ServerName, c.Port, c.DatabaseName, c.User)
