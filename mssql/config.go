@@ -1,4 +1,4 @@
-package exportcsv
+package mssql
 
 import (
 	"fmt"
@@ -15,6 +15,7 @@ type Config struct {
 	DatabaseName string `jason:"databasename" yaml:"databasename"`
 	User         string `jason:"user" yaml:"user"`
 	Password     string `jason:"password" yaml:"password"`
+	CSVPath      string `jason:"csvpath" yaml:"csvpath"`
 }
 
 // LoadConfig method reads dbconfig.yaml file and instantiates *Config struct

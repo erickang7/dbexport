@@ -1,43 +1,48 @@
 package main
 
 import (
-	"context"
 	"database/sql"
-	"fmt"
 	"log"
 
 	_ "github.com/denisenkom/go-mssqldb"
-	"github.com/erickang7/dbexport/exportcsv"
+	"github.com/erickang7/dbexport/mssql"
 )
 
 const configPath = "./dbconfig.yaml"
 
-var config exportcsv.Config
-
-//var db *sql.DB
+var config mssql.Config
+var db *sql.DB
 
 func main() {
 
+	// load database connetion configuration yaml
 	if config.LoadConfig(configPath) != nil {
 		log.Fatal("failed to load connection configuration file")
 	}
 
-	connString := exportcsv.GenerateConnectionString(&config)
-
-	db, err := sql.Open("sqlserver", connString)
+	// open a connection
+	db, err := mssql.Connect(&config)
 	if err != nil {
-		log.Fatal("Error creating connection pool: " + err.Error())
+		log.Fatalf("connection failed to %s: ", config.ServerName)
 	}
-	log.Printf("Connected to\n")
-	log.Print(connString)
+
+	// optional: validate connection
+	result, err := mssql.GetServerVersion(db)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	mssql.PrintRows(result)
+	result.Close()
+
+	// get table names
+	tableList, err := mssql.GetTableList(db)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	// export tables to CSV
+	mssql.SaveAsCSV(&config, db, tableList)
 
 	defer db.Close()
-	ctx := context.Background()
-	var result string
-	err = db.QueryRowContext(ctx, "SELECT @@version").Scan(&result)
-	if err != nil {
-		log.Fatal("Scan failed:", err.Error())
-	}
-	fmt.Printf("%s\n", result)
 
 }
