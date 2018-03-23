@@ -1,6 +1,6 @@
 # Export mssql database tables to CSV
 
-dbexport is a small utility written in GO while I am learning golang. dbexport
+dbexport is a small utility written in GO while I was learning golang. dbexport
 connects to a mssql database or azure sqldb, get the list of tables and export
 all into CSV files by simply running ```dbexport``` command.
 
