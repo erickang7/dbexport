@@ -38,3 +38,12 @@ user: myuser
 password: IKnowThatThisIsNotABestPractice!! 
 csvpath: ~/tmp/csvfiles 
 ```
+
+## Export tables
+Once dbconfig.yaml is created with right property values, just run dbexport.
+
+```bash
+./dbexport
+```
+
+Enjoy!
